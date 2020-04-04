@@ -1,7 +1,7 @@
 package main
 
 import (
-	format "fmt"
+  "fmt"
 	"html/template"
 	"mime/multipart"
 	"net/http"
@@ -16,16 +16,18 @@ func index(writer http.ResponseWriter, request *http.Request) {
 }
 
 func list(writer http.ResponseWriter, request *http.Request) {
-	var t *template.Template
-	// テンプレートをロード
-	t, _ = template.ParseFiles("template/list.html")
-	t.Execute(writer, struct{}{})
+		fmt.Println(dirwalk("./resources"))
+		fmt.Fprintln(writer,dirwalk("./resources"))
+		files := dirwalk("./resources")
+	  for _, file := range files {
+			fmt.Fprintf(writer,fmt.Sprintf("./%s", file))
+		}
 }
 
 func upload(w http.ResponseWriter, r *http.Request) {
 	// このハンドラ関数へのアクセスはPOSTメソッドのみ認める
 	if r.Method != "POST" {
-		format.Fprintln(w, "許可したメソッドとはことなります。")
+		fmt.Fprintln(w, "許可したメソッドとはことなります。")
 		return
 	}
 	var file multipart.File
@@ -36,7 +38,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	// POSTされたファイルデータを取得する
 	file, fileHeader, e = r.FormFile("image")
 	if e != nil {
-		format.Fprintln(w, "ファイルアップロードを確認できませんでした。")
+		fmt.Fprintln(w, "ファイルアップロードを確認できませんでした。")
 		return
 	}
 	uploadedFileName = fileHeader.Filename
@@ -44,7 +46,7 @@ func upload(w http.ResponseWriter, r *http.Request) {
 	var saveImage *os.File
 	saveImage, e = os.Create("./resources/" + uploadedFileName)
 	if e != nil {
-		format.Fprintln(w, "サーバ側でファイル確保できませんでした。")
+		fmt.Fprintln(w, "サーバ側でファイル確保できませんでした。")
 		return
 	}
 	defer saveImage.Close()
@@ -55,16 +57,16 @@ func upload(w http.ResponseWriter, r *http.Request) {
 		n, e := file.Read(img)
 		// 読み混んだバイト数が0を返したらループを抜ける
 		if n == 0 {
-			format.Println(e)
+			fmt.Println(e)
 			break
 		}
 		if e != nil {
-			format.Println(e)
-			format.Fprintln(w, "アップロードされたファイルデータのコピーに失敗。")
+			fmt.Println(e)
+			fmt.Fprintln(w, "アップロードされたファイルデータのコピーに失敗。")
 			return
 		}
 		saveImage.WriteAt(img, tempLength)
 		tempLength = int64(n) + tempLength
 	}
-	format.Fprintf(w, "文字列HTTPとして出力させる")
+	fmt.Fprintf(w, "文字列HTTPとして出力させる")
 }

@@ -1,14 +1,19 @@
 <!DOCTYPE html>
-<html lang=en>
+<html lang="en">
 	<head>
-		<meta chartest="utf-8">
+		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1"> 
-		<link href="/public/css/bootstrap.min.css" rel="stylesheet">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">  
-	<title>ファイルアップロードテスト</title>
+		<title>ファイルアップロードテスト</title>
+		<link href="/static/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/static/css/font-awesome.min.css" rel="stylesheet">
+		 <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+ 
+		<script type="text/javascript" src="/static/js/jquery-3.4.1.min.js"></script>
+    <script type="text/javascript" src="/static/js/bootstrap.min.js"></script>
 	</head>
 	<body>
-	<div class="container">
+	<div class="container has-success">
     <h1>ファイルアップロードテスト</h1>
     <form method="post" action="http://localhost:11180/upload" enctype="multipart/form-data">
         <fieldset>
@@ -16,11 +21,16 @@
             <input type="submit" name="submit" value="Upload">
         </fieldset>
     </form>
-		<button type="button" class="btn btn-list">list</button>
-		<a href="#" class="btn btn-success">ボタン</a>
+
+    <form method="post" action="http://localhost:11180/list">
+            <input type="submit" name="submit" value="List">
+		</form>
+ <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
 	</div>
-			<script type="text/javascript" src="/public/js/jquery-3.4.1.min.js"></script>
-      <script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
 	</body>
 </html>
  

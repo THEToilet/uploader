@@ -2,9 +2,13 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
+	"html/template"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
-	"strings"
+	"path/filepath"
 )
 
 type Configuration struct {
@@ -30,4 +34,41 @@ func loadConfig() {
 	if err != nil {
 		log.Fatalln("Cannot get configuration from file", err)
 	}
+}
+
+func parseTemplateFiles(filenames ...string) (t *template.Template) {
+	var files []string
+	t = template.New("layout")
+	for _, file := range filenames {
+		files = append(files, fmt.Sprintf("template/%s.html", file))
+	}
+	t = template.Must(t.ParseFiles(files...))
+	return
+}
+
+func generateHTML(writer http.ResponseWriter, data interface{}, filenames ...string) {
+	var files []string
+	for _, file := range filenames {
+		files = append(files, fmt.Sprintf("templates/%s.html", file))
+	}
+	templates := template.Must(template.ParseFiles(files...))
+	templates.ExecuteTemplate(writer, "layout", data)
+}
+
+func dirwalk(dir string) []string {
+	files, err := ioutil.ReadDir(dir)
+	if err != nil {
+		log.Fatalln("Cannot get configuration from file", err)
+	}
+
+	var paths []string
+	for _, file := range files {
+		if file.IsDir() {
+			paths = append(paths, dirwalk(filepath.Join(dir, file.Name()))...)
+			continue
+		}
+		paths = append(paths, filepath.Join(dir, file.Name()))
+	}
+
+	return paths
 }
