@@ -14,6 +14,7 @@ func main() {
 
 	mux.HandleFunc("/upload", upload)
 	mux.HandleFunc("/", index)
+	mux.HandleFunc("/list", index)
 
 	// http.Server構造体のポインタを宣言
 	var server *http.Server
@@ -31,6 +32,14 @@ func index(writer http.ResponseWriter, request *http.Request) {
 	t, _ = template.ParseFiles("template/index.html")
 	t.Execute(writer, struct{}{})
 }
+
+func list(writer http.ResponseWriter, request *http.Request) {
+	var t *template.Template
+	// テンプレートをロード
+	t, _ = template.ParseFiles("template/list.html")
+	t.Execute(writer, struct{}{})
+}
+
 
 func upload(w http.ResponseWriter, r *http.Request) {
 	// このハンドラ関数へのアクセスはPOSTメソッドのみ認める
