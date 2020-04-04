@@ -1,10 +1,14 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <title>ファイルアップロードテスト</title>
-</head>
-<body>
-<div class="container">
+<html lang=en>
+	<head>
+		<meta chartest="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1"> 
+		<link href="/public/css/bootstrap.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">  
+	<title>ファイルアップロードテスト</title>
+	</head>
+	<body>
+	<div class="container">
     <h1>ファイルアップロードテスト</h1>
     <form method="post" action="http://localhost:11180/upload" enctype="multipart/form-data">
         <fieldset>
@@ -12,7 +16,11 @@
             <input type="submit" name="submit" value="Upload">
         </fieldset>
     </form>
-</div>
-</body>
+		<button type="button" class="btn btn-list">list</button>
+		<a href="#" class="btn btn-success">ボタン</a>
+	</div>
+			<script type="text/javascript" src="/public/js/jquery-3.4.1.min.js"></script>
+      <script type="text/javascript" src="/public/js/bootstrap.min.js"></script>
+	</body>
 </html>
  
