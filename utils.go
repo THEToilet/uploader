@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"encoding/json"
 	"fmt"
 	"html/template"
@@ -71,4 +72,24 @@ func dirwalk(dir string) []string {
 	}
 
 	return paths
+
+}
+
+func readfile(st string) string {
+	var s string
+	// ファイルを読み出し用にオープン
+	file, err := os.Open(st)
+	if err != nil {
+		panic(err)
+	}
+	defer file.Close()
+
+	// 一行ずつ読み出し
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		fmt.Println(line)
+		s += line
+	}
+	return s
 }

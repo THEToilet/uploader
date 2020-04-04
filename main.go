@@ -11,7 +11,7 @@ func main() {
 	mux.HandleFunc("/", index)
 	mux.HandleFunc("/upload", upload)
 	mux.HandleFunc("/list", list)
-	
+
 	// http.Server構造体のポインタを宣言
 	server := &http.Server{
 		Addr:           ":11180",
