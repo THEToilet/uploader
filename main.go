@@ -11,11 +11,10 @@ func main() {
 	mux.HandleFunc("/", index)
 	mux.HandleFunc("/upload", upload)
 	mux.HandleFunc("/list", list)
-	mux.HandleFunc("/test", test)
 
 	// http.Server構造体のポインタを宣言
 	server := &http.Server{
-		Addr:           ":11180",
+		Addr:           ":11180"/*config.Address*/,
 		Handler:        mux,
 		ReadTimeout:    time.Duration(config.ReadTimeout * int64(time.Second)),
 		WriteTimeout:   time.Duration(config.WriteTimeout * int64(time.Second)),

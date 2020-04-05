@@ -89,7 +89,7 @@ func readfile(st string) string {
 	for scanner.Scan() {
 		line := scanner.Text()
 		fmt.Println(line)
-		s += line
+		s += line + "\n"
 	}
 	return s
 }

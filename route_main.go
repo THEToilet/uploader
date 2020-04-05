@@ -2,18 +2,10 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"mime/multipart"
 	"net/http"
 	"os"
 )
-
-func index(writer http.ResponseWriter, request *http.Request) {
-	var t *template.Template
-	// テンプレートをロード
-	t, _ = template.ParseFiles("template/index.html")
-	t.Execute(writer, struct{}{})
-}
 
 func list(writer http.ResponseWriter, request *http.Request) {
 	fmt.Println(dirwalk("./resources"))
@@ -25,7 +17,7 @@ func list(writer http.ResponseWriter, request *http.Request) {
 	}
 }
 
-func test(writer http.ResponseWriter, request *http.Request) {
+func index(writer http.ResponseWriter, request *http.Request) {
 	generateHTML(writer, nil, "index", "navbar", "content")
 
 }
