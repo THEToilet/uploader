@@ -26,7 +26,7 @@ func list(writer http.ResponseWriter, request *http.Request) {
 }
 
 func test(writer http.ResponseWriter, request *http.Request) {
-	generateHTML(writer, nil, "index", "navbar")
+	generateHTML(writer, nil, "index", "navbar", "content")
 
 }
 
