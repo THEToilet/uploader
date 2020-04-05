@@ -88,7 +88,6 @@ func readfile(st string) string {
 	scanner := bufio.NewScanner(file)
 	for scanner.Scan() {
 		line := scanner.Text()
-		fmt.Println(line)
 		s += line + "\n"
 	}
 	return s
