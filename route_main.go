@@ -21,8 +21,13 @@ func list(writer http.ResponseWriter, request *http.Request) {
 	files := dirwalk("./resources")
 	for _, file := range files {
 		fmt.Fprintf(writer, fmt.Sprintf("./%s", file))
-		fmt.Fprintf(writer, readfile("./" + file))
+		fmt.Fprintf(writer, readfile("./"+file))
 	}
+}
+
+func test(writer http.ResponseWriter, request *http.Request) {
+	generateHTML(writer, nil, "index", "navbar")
+
 }
 
 func upload(w http.ResponseWriter, r *http.Request) {

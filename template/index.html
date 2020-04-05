@@ -1,3 +1,4 @@
+{{ define "layout" }}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -9,6 +10,7 @@
  
 	</head>
 	<body>
+	{{ template "navbar" .}}
 	<div class="container has-success">
     <h1>ファイルアップロードテスト</h1>
     <form method="post" action="http://localhost:11180/upload" enctype="multipart/form-data">
@@ -29,4 +31,4 @@
 	</div>
 	</body>
 </html>
- 
+{{ end }}
