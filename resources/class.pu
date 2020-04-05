@@ -1,0 +1,340 @@
+@startuml CatanClass
+
+namespace Common{
+    class Dice{
+        + {static} int RollOnceDice()
+        + {static} int[] RollTwiceDice()
+        + {static} int[] NumberToken()
+        + {static} int RandomRollTwiceDice()
+    }
+}
+namespace Terrain{
+    enum TerrainType {
+        Forest
+        Hill
+        Mine
+        Pasture
+        Field
+        Desert
+    }
+    class RoadBaseBehavior{
+        + bool hasTerritory
+    }
+    class TerrainBehavior{
+        + int tokenNumber
+    }
+}
+
+namespace Point{
+    class CanPutPointJudgement{
+        + void Judgement()
+    }
+    class PointChildrenBeavior{
+        + int pointNumber
+        + GameObject AdjacentPoint_0
+        + GameObject AdjacentPoint_1
+        + GameObject AdjacentPoint_2
+        - GameObject parent
+        - GameObject territory
+        + bool hasTerritory
+    }
+    class PointChildrenRelevanceSetting{
+        - int[][] adjacentPoint
+        + void Allocation()
+    }
+    class PointParentBehavior{
+        + int pointNumber
+        - GameObject TerrainObject
+        + GameObject childPoint_0
+        + GameObject childPoint_1
+        + GameObject childPoint_2
+        + GameObject childPoint_3
+        + GameObject childPoint_4
+        + GameObject childPoint_5
+        + bool hasThief()
+    }
+    class PointParentRelevanceSetting{
+        - int[][] hasPoints
+        + void Allocation()
+    }
+    PointParentRelevanceSetting ..> Generation.PointChildrenGeneration
+    PointParentRelevanceSetting ..> Generation.PointParentGeneration
+
+    PointChildrenRelevanceSetting ..> Generation.PointChildrenGeneration
+}
+
+namespace Territory{
+
+    enum TerritoryType {
+        Road
+        Settlement
+        City
+    }
+
+    interface ITerritoryBehavior
+    class Road
+    ITerritoryBehavior --> Road
+    abstract BaseEntity
+    ITerritoryBehavior --> BaseEntity
+
+    class Settlement
+    class City
+    BaseEntity --> Settlement
+    BaseEntity --> City
+}
+
+
+namespace Card{
+
+    interface ICardBehavior
+
+    enum MaterialType {
+        Wood
+        Bricks
+        IronOre
+        Wheat
+        Wool
+    }
+
+    abstract NormalCardEntity
+    Card.ICardBehavior --> NormalCardEntity
+    abstract SpecialCardEntity
+    Card.ICardBehavior --> SpecialCardEntity
+
+    class Wood
+    class Bricks
+    class IronOre
+    class Wheat
+    class Wool
+
+    Card.NormalCardEntity --> Wood
+    Card.NormalCardEntity --> Bricks
+    Card.NormalCardEntity --> IronOre
+    Card.NormalCardEntity --> Wheat
+    Card.NormalCardEntity --> Wool
+
+    ICardBehavior --r> MaterialType
+}
+
+namespace Generation{
+    class PlayerGeneration{
+        - GameObject Player
+        - Vector3[] PlayerPoint
+        + void Generate()
+    }
+    class PointChildrenGeneration{
+        - GameObject childPoint
+        - Vector3[] childPoints
+        + List<GameObject> childPointGameObjects
+        + void Generate()
+    }
+    class PointParentGeneration{
+        - GameObject parentPoint
+        - Vector3[] parentPoints
+        + List<GameObject> parentPointObjects
+        + void Generate()
+    }
+    class RandomNoGeneration{
+        + int[] terrainValue
+        + int[] Generate()
+        - int[] Shuffle(int[] array)
+    }
+    class RoadGeneration{
+        - GameObject roadBase
+        - Vector3[] roadBasePositions
+        + List<GameObject> roads
+        + void Generate()
+    }
+    class TerrainGeneration{
+        - Vector3 tmpTerrainPosition
+        - GameObject Forest
+        - GameObject Hill
+        - GameObject Mine
+        - GameObject Pasture
+        - GameObject Field
+        - GameObject Desert
+        - GameObject tmpGameObject
+        + List<GameObject> territoryObjectCollections
+        + void Create(int[] terrainPointValue)
+
+    }
+    class TerrainNumberGeneraion{
+        - int[] NumberToken
+        + void Distribution()
+    }
+    class TerritoryGeneration{
+        - GameObject Road
+        - GameObject Settlement
+        - GameObject City
+        - GameObject tmpGameObject
+        - GameObject tmp
+        + void Generate(Vector position, TerritoryType territoryType,PlayerId playerId)
+    }
+    class TerritoryGeneraionDecision{
+        - bool hasPointTerriorty
+        - bool hasRoadBaseTerritory
+        + void Generationginstruction(GameObject _gameObject)
+    }
+    TerrainGeneration ..> PointParentGeneration
+    TerrainNumberGeneraion ..> TerrainGeneration
+    PlayerGeneration ..> Common.Dice
+
+    TerritoryGeneraionDecision ..> TerritoryGeneration
+    TerritoryGeneraionDecision ..> Maneger.PlayerTurn
+
+    TerritoryGeneration ..> Player.ToPlayerObject
+    TerritoryGeneration ..> Presenter.ObjectClickPresenter
+
+}
+
+namespace Maneger{
+    class BattleManeger{
+        + ReactiveProperty<bool> winnerexist
+        + ReactiveProperty<int> winnerScore
+        - PlayerId[] playerIds
+        + void Start()
+        + void Upadate()
+        + async void Excute()
+        - void VictoryPersonExists()
+    }
+    class DistributeCardManeger
+    enum GameState{
+        Construction
+        AboutCard
+        Trade
+        Negotiation
+    }
+    class GameStateManeger{
+        + ReactiveProperty<GameState> _currentGameState
+        - void Start()
+        - async UniTaskVoid StateChangedAsyne(CancellationToken cancellationToken)
+    }
+    class InitializationManeger{
+        + async void Excute()
+    }
+    class PlayerTurn{
+        + PlayerId[] playerIds
+        + ReactiveProperty<PlayerId> _currentPlayerId
+        + bool isActive
+        - void Start()
+        + async UniTask DescendingOrderTurnState()
+        + async UniTask AscendingOrderTurnState()
+        + async UniTask NormalOrderTurnState()
+        - async UniTaskVoid StateChangedAsync(CancellationToken cancellationToken)
+        - async UniTask TurnUniTask()
+        - async UniTask UntilRollDice()
+    }
+    enum ProgressState{
+        Title
+        Maching
+        Initialization
+        Battle
+        Finished
+        Result
+    }
+    class ProgressStateManeger{
+        + ReactiveProperty<ProgressState> _currentProgressState
+        - void Start()
+        - async UniTaskVoid StateChangedAsync(CancellationToken cancellationToken)
+    }
+
+    GameStateManager --r> GameState
+    InitializationManeger ..> Point.PointChildrenGeneration
+    InitializationManeger ..> Point.PointParentGeneration
+    InitializationManeger ..> Point.PointChildrenRelevanceSetting
+    InitializationManeger ..> Point.PointParentRelevanceSetting
+    InitializationManeger ..> Generation.RoadGeneration
+    InitializationManeger ..> Generation.TerrainGeneration
+    InitializationManeger ..> Generation.TerrainNumberGeneraion
+    InitializationManeger ..> Generation.PlayerGeneration
+    InitializationManeger ..> Player.OrderDetermining
+    InitializationManeger ..> PlayerTurn
+
+    ProgressStateManeger ..> InitializationManeger
+    ProgressStateManeger ..> BattleManeger
+
+    BattleManeger ..> PlayerTurn
+    BattleManeger ..> ProgressStateManeger
+    BattleManeger ..> Player.ToPlayerObject
+
+    PlayerTurn ..> Presenter.PlayerTurnUI
+    PlayerTurn ..> Presenter.DicePresenter
+    PlayerTurn ..> Player.PlayerMonitoring
+}
+
+namespace Player{
+    class Belongings{
+        + List<CardEntity> cards
+        + List<SpecialCardEntity> scards
+        + List<GameObject> territories
+    }
+    class OrderDetermining{
+        + int[] orderNum
+        - PlayerId[] playreNames
+        - PlayerId[] playerIds
+        - Dictionary<PlayerId,int> dic
+        + void OrderDecide()
+        + PlayerId[] GetOrder()
+    }
+    class PlayerCore<<MonoBehaviour>>{
+        + ReactiveProperty<int> playerScore
+        - Belongings _belongings
+    }
+    class PlayerIdExtensions{
+        + {static} Color ToCololr(Player Id)
+    }
+    class PlayerMonitoring{
+        + void PlayerMonitoring(PlayerId playerId)
+    }
+    class ToPlayerObject{
+        + GameObject Player1
+        + GameObject Player2
+        + GameObject Player3
+        + GameObject Player4
+        + GameObject ToPlayer(PlayrId Id)
+    }
+
+    enum PlayerId{
+        Player1
+        Player2
+        Player3
+        Player4
+    }
+
+    PlayerMonitoring ..> Presenter.ObjectClickPresenter
+    PlayerMonitoring ..> Presenter.ActionPresenter
+}
+
+namespace Presenter{
+    class ActionPresenter{
+    }
+    class ObjectClickPresenter
+}
+
+@endumletermining{
+        + int[] orderNum
+        - PlayerId[] playreNames
+        - PlayerId[] playerIds
+        - Dictionary<PlayerId,int> dic
+        + void OrderDecide()
+        + PlayerId[] GetOrder()
+    }
+    class PlayerCore<<MonoBehaviour>>{
+        + ReactiveProperty<int> playerScore
+        - Belongings _belongings
+    }
+    class PlayerIdExtensions{
+        + {static} Color ToCololr(Player Id)
+    }
+    class PlayerMonitoring{
+        + void PlayerMonitoring(PlayerId playerId)
+    }
+    class ToPlayerObject{
+        + GameObject Player1
+        + GameObject Player2
+        + GameObject Player3
+        + GameObject Player4
+        + GameObject ToPlayer(PlayrId Id)
+    }
+
+  
