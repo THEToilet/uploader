@@ -1,18 +1,23 @@
+{{ define "content" }}
 <!DOCTYPE html>
-<html>
-<head>
-    <title>ファイルアップロードテスト</title>
-</head>
-<body>
-<div class="container">
-    <h1>ファイルアップロードテスト</h1>
-    <form method="post" action="http://localhost:11180/upload" enctype="multipart/form-data">
-        <fieldset>
-            <input type="file" name="image" id="upload_files" multiple="multiple">
-            <input type="submit" name="submit" value="Upload">
-        </fieldset>
-    </form>
+ <div class="panel panel-default">
+   <div class="panel-heading">
+     <div class="pull-right">
+     </div>
+
+   </div>
+<ul>
+   {{ range . }}
+   <div class="panel-body">
+  	<li>{{.}} </li>  
+	<div class="pull-right">
+     </div>
+   </div>
+   {{ end }}
+</ul>
 </div>
-</body>
+
+
 </html>
- 
+
+{{ end }} 

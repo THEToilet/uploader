@@ -19,9 +19,11 @@ func list(writer http.ResponseWriter, request *http.Request) {
 
 func index(writer http.ResponseWriter, request *http.Request) {
 	generateHTML(writer, nil, "index", "navbar", "content")
-
 }
 
+func listview(writer http.ResponseWriter, request *http.Request) {
+	generateHTML(writer, nil, "index", "navbar", "list")
+}
 func upload(w http.ResponseWriter, r *http.Request) {
 	// このハンドラ関数へのアクセスはPOSTメソッドのみ認める
 	if r.Method != "POST" {
