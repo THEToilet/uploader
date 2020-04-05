@@ -7,6 +7,16 @@ import (
 	"os"
 )
 
+// GET /err?msg=
+// shows the error message page
+func showwiki(writer http.ResponseWriter, request *http.Request) {
+	vals := request.URL.Query()
+	fmt.Println(vals.Get("q"))
+	fmt.Println(readfile(vals.Get("q")))
+	generateHTML(writer, readfile(vals.Get("q")), "index", "navbar", "wiki.content")
+}
+
+
 func list(writer http.ResponseWriter, request *http.Request) {
 	fmt.Println(dirwalk("./resources"))
 	fmt.Fprintln(writer, dirwalk("./resources"))
