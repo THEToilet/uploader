@@ -18,13 +18,13 @@ func showwiki(writer http.ResponseWriter, request *http.Request) {
 
 
 func list(writer http.ResponseWriter, request *http.Request) {
-	fmt.Println(dirwalk("./resources"))
 	fmt.Fprintln(writer, dirwalk("./resources"))
 	files := dirwalk("./resources")
 	for _, file := range files {
 		fmt.Fprintf(writer, fmt.Sprintf("./%s", file))
 		fmt.Fprintf(writer, readfile("./"+file))
 	}
+//	generateHTML(writer, files, "index", "navbar")
 }
 
 func index(writer http.ResponseWriter, request *http.Request) {
