@@ -7,8 +7,7 @@ import (
 	"os"
 )
 
-// GET /err?msg=
-// shows the error message page
+// GET /showwiki?q=
 func showwiki(writer http.ResponseWriter, request *http.Request) {
 	vals := request.URL.Query()
 	fmt.Println(vals.Get("q"))
@@ -16,7 +15,7 @@ func showwiki(writer http.ResponseWriter, request *http.Request) {
 	generateHTML(writer, readfile(vals.Get("q")), "index", "navbar", "wiki.content")
 }
 
-
+// GET /list
 func list(writer http.ResponseWriter, request *http.Request) {
 	fmt.Fprintln(writer, dirwalk("./resources"))
 	files := dirwalk("./resources")
@@ -24,16 +23,36 @@ func list(writer http.ResponseWriter, request *http.Request) {
 		fmt.Fprintf(writer, fmt.Sprintf("./%s", file))
 		fmt.Fprintf(writer, readfile("./"+file))
 	}
-//	generateHTML(writer, files, "index", "navbar")
 }
 
+// GET /index
 func index(writer http.ResponseWriter, request *http.Request) {
 	generateHTML(writer, nil, "index", "navbar", "content")
 }
 
+// GET /viewlist
 func viewlist(writer http.ResponseWriter, request *http.Request) {
 	generateHTML(writer, dirwalk("./resources"), "index", "navbar", "list")
 }
+
+// GET /write
+func write(writer http.ResponseWriter, request *http.Request) {
+	generateHTML(writer, nil, "index", "navbar", "form")
+}
+
+// POST /register
+// Create the user account
+func register(writer http.ResponseWriter, request *http.Request) {
+	err := request.ParseForm()
+	if err != nil {
+		 fmt.Fprintln(writer, "Cannot parse form")
+	}
+	print(request.PostFormValue("name"))
+	print(request.PostFormValue("password"))
+
+	http.Redirect(writer, request, "/viewlist", 302)
+}
+
 func upload(w http.ResponseWriter, r *http.Request) {
 	// このハンドラ関数へのアクセスはPOSTメソッドのみ認める
 	if r.Method != "POST" {
