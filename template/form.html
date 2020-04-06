@@ -1,13 +1,16 @@
 {{ define "content" }}
 <form class="form-signin" role="form" action="/register" method="post">
    <h2 class="form-signin-heading">
-     <i class="fa fa-comments-o">
-       Uploader
-     </i>
    </h2>
-   <div class="lead">登録</div>
-   <input id="name" type="text" name="name" class="form-control"  required autofocus>
-   <input type="password" name="password" class="form-control"  required>
-  <button class="btn btn-lg btn-primary btn-block" type="submit">登録</button>
+   <div class="lead">Write</div>
+<div class="form-group">
+  <label for="textarea1">Title:</label>
+   <input id="title" type="text" name="title" class="form-control" placeholder="Title" required autofocus>
+</div>  
+<div class="form-group">
+  <label for="textarea1">Body:</label>
+  <textarea id="body" type="text" name="body" class="form-control"></textarea>
+</div>  
+<button class="btn btn-lg btn-primary btn-block" type="submit">登録</button>
 </form>
 {{ end }}

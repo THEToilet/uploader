@@ -45,10 +45,11 @@ func write(writer http.ResponseWriter, request *http.Request) {
 func register(writer http.ResponseWriter, request *http.Request) {
 	err := request.ParseForm()
 	if err != nil {
-		 fmt.Fprintln(writer, "Cannot parse form")
+		fmt.Fprintln(writer, "Cannot parse form")
 	}
-	print(request.PostFormValue("name"))
-	print(request.PostFormValue("password"))
+	print(request.PostFormValue("title"))
+	print(request.PostFormValue("body"))
+	registerfile(request.PostFormValue("title"), request.PostFormValue("body"))
 
 	http.Redirect(writer, request, "/viewlist", 302)
 }

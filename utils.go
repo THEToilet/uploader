@@ -92,3 +92,15 @@ func readfile(st string) string {
 	}
 	return s
 }
+
+func registerfile(filename string, body string) {
+	file, err := os.OpenFile("resources/"+filename, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	defer file.Close()
+
+	file.WriteString(body)
+	print("ok")
+}
